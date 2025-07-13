@@ -1,0 +1,1896 @@
+{
+    "critical": [
+        {
+            "cwe_ids": [
+                "94"
+            ],
+            "id": "python_lang_code_injection",
+            "title": "Unsanitized external input in code generation",
+            "description": "## Description\n\nAllowing external input (dynamic or user-controlled) to directly influence code generation or scripting functions without proper sanitization can lead to code injection vulnerabilities. This occurs when an attacker is able to insert malicious code into your application, which is then executed, potentially leading to unauthorized actions or data access.\n\n## Remediations\n\n- **Do not** pass unsanitized external input to functions or methods that dynamically execute code.\n- **Do** always validate or sanitize input to ensure it does not contain harmful code before using it in such contexts.\n\n## References\n\n- [OWASP Code injection](https://owasp.org/www-community/attacks/Code_Injection)",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_code_injection",
+            "line_number": 275,
+            "full_filename": "src/confluent_kafka/schema_registry/common/protobuf.py",
+            "filename": "src/confluent_kafka/schema_registry/common/protobuf.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 275,
+                "end": 275,
+                "column": {
+                    "start": 9,
+                    "end": 41
+                }
+            },
+            "sink": {
+                "start": 275,
+                "end": 275,
+                "column": {
+                    "start": 9,
+                    "end": 41
+                },
+                "content": ""
+            },
+            "parent_line_number": 275,
+            "fingerprint": "528dbb599abdff145e623bd16996f971_0",
+            "old_fingerprint": "528dbb599abdff145e623bd16996f971_0",
+            "code_extract": "        setattr(message, fd.name, value)"
+        }
+    ],
+    "high": [
+        {
+            "cwe_ids": [
+                "918"
+            ],
+            "id": "python_lang_http_url_using_user_input",
+            "title": "Unsanitized user input in HTTP request (SSRF)",
+            "description": "## Description\n\nYour application is vulnerable to Server-Side Request Forgery (SSRF) attacks when it connects to URLs that include user-supplied data. This vulnerability occurs because attackers can manipulate these URLs to force your application to make unintended requests to internal or external resources.\n\n## Remediations\n\n- **Do not** directly include user input in HTTP URLs. This practice can lead to SSRF vulnerabilities, where attackers exploit the application to send requests to unintended destinations.\n  ```python\n  host = request.GET[\"host\"]\n  \n  urllib.request.urlopen(f\"https://{host}\") # unsafe\n  ```\n- **Do** validate or map user input against a predefined list of safe values before using it to form URLs. This approach ensures that the application only connects to intended and safe locations.\n  ```python\n  host = \"api1.com\" if request.GET[\"host\"] == \"option1\" else \"api2.com\"\n  \n  urllib.request.urlopen(f\"https://{host}\")\n  ```\n\n## References\n\n- [OWASP - Server-Side Request Forgery (SSRF) prevention cheat sheet](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_http_url_using_user_input",
+            "line_number": 26,
+            "full_filename": "tools/wheels/install-macos-python-required-by-cibuildwheel.py",
+            "filename": "tools/wheels/install-macos-python-required-by-cibuildwheel.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 26,
+                "end": 26,
+                "column": {
+                    "start": 12,
+                    "end": 46
+                }
+            },
+            "sink": {
+                "start": 26,
+                "end": 26,
+                "column": {
+                    "start": 12,
+                    "end": 46
+                },
+                "content": ""
+            },
+            "parent_line_number": 26,
+            "fingerprint": "a90c54fbeb131d3c49f02dc4651110a9_0",
+            "old_fingerprint": "a90c54fbeb131d3c49f02dc4651110a9_0",
+            "code_extract": "response = urllib.request.urlopen(config_url).read()"
+        },
+        {
+            "cwe_ids": [
+                "22"
+            ],
+            "id": "python_lang_path_traversal",
+            "title": "Unsanitized dynamic input in file path",
+            "description": "## Description\n\nUsing unsanitized dynamic input to determine file paths can allow attackers to gain access to files and folders outside of the intended scope. This vulnerability occurs when input provided by users is directly used to access the filesystem without proper validation or sanitization.\n\n## Remediations\n\n- **Do not** directly use external input to construct file paths. This can lead to unauthorized file access.\n- **Do** use a safelist to define accessible paths or directories. Only allow user input to influence file paths within these predefined, safe boundaries.\n- **Do** use absolute path checks to confirm that the constructed path is within the expected directory\n    ```python\n    BASE_DIRECTORY = '/path/to/safe/directory'\n    my_path = os.path.abspath(os.path.join(BASE_DIRECTORY, dynamic_input))\n\n    if my_path.startswith(BASE_DIRECTORY):\n      open(my_path)\n   ```\n\n## References\n\n- [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)\n",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_path_traversal",
+            "line_number": 132,
+            "full_filename": "src/confluent_kafka/__init__.py",
+            "filename": "src/confluent_kafka/__init__.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 132,
+                "end": 132,
+                "column": {
+                    "start": 13,
+                    "end": 47
+                }
+            },
+            "sink": {
+                "start": 132,
+                "end": 132,
+                "column": {
+                    "start": 13,
+                    "end": 47
+                },
+                "content": ""
+            },
+            "parent_line_number": 132,
+            "fingerprint": "69f5a69f1273356463c8bbfd8155cba9_0",
+            "old_fingerprint": "69f5a69f1273356463c8bbfd8155cba9_8",
+            "code_extract": "            fpath = os.path.join(libdir, file)"
+        },
+        {
+            "cwe_ids": [
+                "22"
+            ],
+            "id": "python_lang_path_traversal",
+            "title": "Unsanitized dynamic input in file path",
+            "description": "## Description\n\nUsing unsanitized dynamic input to determine file paths can allow attackers to gain access to files and folders outside of the intended scope. This vulnerability occurs when input provided by users is directly used to access the filesystem without proper validation or sanitization.\n\n## Remediations\n\n- **Do not** directly use external input to construct file paths. This can lead to unauthorized file access.\n- **Do** use a safelist to define accessible paths or directories. Only allow user input to influence file paths within these predefined, safe boundaries.\n- **Do** use absolute path checks to confirm that the constructed path is within the expected directory\n    ```python\n    BASE_DIRECTORY = '/path/to/safe/directory'\n    my_path = os.path.abspath(os.path.join(BASE_DIRECTORY, dynamic_input))\n\n    if my_path.startswith(BASE_DIRECTORY):\n      open(my_path)\n   ```\n\n## References\n\n- [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)\n",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_path_traversal",
+            "line_number": 133,
+            "full_filename": "src/confluent_kafka/__init__.py",
+            "filename": "src/confluent_kafka/__init__.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 133,
+                "end": 133,
+                "column": {
+                    "start": 31,
+                    "end": 36
+                }
+            },
+            "sink": {
+                "start": 133,
+                "end": 133,
+                "column": {
+                    "start": 31,
+                    "end": 36
+                },
+                "content": ""
+            },
+            "parent_line_number": 133,
+            "fingerprint": "69f5a69f1273356463c8bbfd8155cba9_1",
+            "old_fingerprint": "69f5a69f1273356463c8bbfd8155cba9_9",
+            "code_extract": "            if os.path.isfile(fpath):"
+        },
+        {
+            "cwe_ids": [
+                "22"
+            ],
+            "id": "python_lang_path_traversal",
+            "title": "Unsanitized dynamic input in file path",
+            "description": "## Description\n\nUsing unsanitized dynamic input to determine file paths can allow attackers to gain access to files and folders outside of the intended scope. This vulnerability occurs when input provided by users is directly used to access the filesystem without proper validation or sanitization.\n\n## Remediations\n\n- **Do not** directly use external input to construct file paths. This can lead to unauthorized file access.\n- **Do** use a safelist to define accessible paths or directories. Only allow user input to influence file paths within these predefined, safe boundaries.\n- **Do** use absolute path checks to confirm that the constructed path is within the expected directory\n    ```python\n    BASE_DIRECTORY = '/path/to/safe/directory'\n    my_path = os.path.abspath(os.path.join(BASE_DIRECTORY, dynamic_input))\n\n    if my_path.startswith(BASE_DIRECTORY):\n      open(my_path)\n   ```\n\n## References\n\n- [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)\n",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_path_traversal",
+            "line_number": 134,
+            "full_filename": "src/confluent_kafka/__init__.py",
+            "filename": "src/confluent_kafka/__init__.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 134,
+                "end": 134,
+                "column": {
+                    "start": 17,
+                    "end": 29
+                }
+            },
+            "sink": {
+                "start": 134,
+                "end": 134,
+                "column": {
+                    "start": 17,
+                    "end": 29
+                },
+                "content": ""
+            },
+            "parent_line_number": 134,
+            "fingerprint": "69f5a69f1273356463c8bbfd8155cba9_2",
+            "old_fingerprint": "69f5a69f1273356463c8bbfd8155cba9_10",
+            "code_extract": "                good = fpath"
+        },
+        {
+            "cwe_ids": [
+                "22"
+            ],
+            "id": "python_lang_path_traversal",
+            "title": "Unsanitized dynamic input in file path",
+            "description": "## Description\n\nUsing unsanitized dynamic input to determine file paths can allow attackers to gain access to files and folders outside of the intended scope. This vulnerability occurs when input provided by users is directly used to access the filesystem without proper validation or sanitization.\n\n## Remediations\n\n- **Do not** directly use external input to construct file paths. This can lead to unauthorized file access.\n- **Do** use a safelist to define accessible paths or directories. Only allow user input to influence file paths within these predefined, safe boundaries.\n- **Do** use absolute path checks to confirm that the constructed path is within the expected directory\n    ```python\n    BASE_DIRECTORY = '/path/to/safe/directory'\n    my_path = os.path.abspath(os.path.join(BASE_DIRECTORY, dynamic_input))\n\n    if my_path.startswith(BASE_DIRECTORY):\n      open(my_path)\n   ```\n\n## References\n\n- [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)\n",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_path_traversal",
+            "line_number": 138,
+            "full_filename": "src/confluent_kafka/__init__.py",
+            "filename": "src/confluent_kafka/__init__.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 138,
+                "end": 138,
+                "column": {
+                    "start": 29,
+                    "end": 33
+                }
+            },
+            "sink": {
+                "start": 138,
+                "end": 138,
+                "column": {
+                    "start": 29,
+                    "end": 33
+                },
+                "content": ""
+            },
+            "parent_line_number": 138,
+            "fingerprint": "69f5a69f1273356463c8bbfd8155cba9_3",
+            "old_fingerprint": "69f5a69f1273356463c8bbfd8155cba9_11",
+            "code_extract": "            resolved.append(good)"
+        },
+        {
+            "cwe_ids": [
+                "22"
+            ],
+            "id": "python_lang_path_traversal",
+            "title": "Unsanitized dynamic input in file path",
+            "description": "## Description\n\nUsing unsanitized dynamic input to determine file paths can allow attackers to gain access to files and folders outside of the intended scope. This vulnerability occurs when input provided by users is directly used to access the filesystem without proper validation or sanitization.\n\n## Remediations\n\n- **Do not** directly use external input to construct file paths. This can lead to unauthorized file access.\n- **Do** use a safelist to define accessible paths or directories. Only allow user input to influence file paths within these predefined, safe boundaries.\n- **Do** use absolute path checks to confirm that the constructed path is within the expected directory\n    ```python\n    BASE_DIRECTORY = '/path/to/safe/directory'\n    my_path = os.path.abspath(os.path.join(BASE_DIRECTORY, dynamic_input))\n\n    if my_path.startswith(BASE_DIRECTORY):\n      open(my_path)\n   ```\n\n## References\n\n- [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)\n",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_path_traversal",
+            "line_number": 32,
+            "full_filename": "src/confluent_kafka/avro/load.py",
+            "filename": "src/confluent_kafka/avro/load.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 32,
+                "end": 32,
+                "column": {
+                    "start": 10,
+                    "end": 18
+                }
+            },
+            "sink": {
+                "start": 32,
+                "end": 32,
+                "column": {
+                    "start": 10,
+                    "end": 18
+                },
+                "content": ""
+            },
+            "parent_line_number": 32,
+            "fingerprint": "7caae0dd31546c4166d200382786ab02_0",
+            "old_fingerprint": "7caae0dd31546c4166d200382786ab02_0",
+            "code_extract": "    with open(fp) as f:"
+        },
+        {
+            "cwe_ids": [
+                "22"
+            ],
+            "id": "python_lang_path_traversal",
+            "title": "Unsanitized dynamic input in file path",
+            "description": "## Description\n\nUsing unsanitized dynamic input to determine file paths can allow attackers to gain access to files and folders outside of the intended scope. This vulnerability occurs when input provided by users is directly used to access the filesystem without proper validation or sanitization.\n\n## Remediations\n\n- **Do not** directly use external input to construct file paths. This can lead to unauthorized file access.\n- **Do** use a safelist to define accessible paths or directories. Only allow user input to influence file paths within these predefined, safe boundaries.\n- **Do** use absolute path checks to confirm that the constructed path is within the expected directory\n    ```python\n    BASE_DIRECTORY = '/path/to/safe/directory'\n    my_path = os.path.abspath(os.path.join(BASE_DIRECTORY, dynamic_input))\n\n    if my_path.startswith(BASE_DIRECTORY):\n      open(my_path)\n   ```\n\n## References\n\n- [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)\n",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_path_traversal",
+            "line_number": 102,
+            "full_filename": "src/confluent_kafka/kafkatest/verifiable_client.py",
+            "filename": "src/confluent_kafka/kafkatest/verifiable_client.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 102,
+                "end": 102,
+                "column": {
+                    "start": 14,
+                    "end": 29
+                }
+            },
+            "sink": {
+                "start": 102,
+                "end": 102,
+                "column": {
+                    "start": 14,
+                    "end": 29
+                },
+                "content": ""
+            },
+            "parent_line_number": 102,
+            "fingerprint": "5c1617467625c87ecc481c18c54ab7bb_0",
+            "old_fingerprint": "5c1617467625c87ecc481c18c54ab7bb_6",
+            "code_extract": "        with open(path, 'r') as f:"
+        },
+        {
+            "cwe_ids": [
+                "22"
+            ],
+            "id": "python_lang_path_traversal",
+            "title": "Unsanitized dynamic input in file path",
+            "description": "## Description\n\nUsing unsanitized dynamic input to determine file paths can allow attackers to gain access to files and folders outside of the intended scope. This vulnerability occurs when input provided by users is directly used to access the filesystem without proper validation or sanitization.\n\n## Remediations\n\n- **Do not** directly use external input to construct file paths. This can lead to unauthorized file access.\n- **Do** use a safelist to define accessible paths or directories. Only allow user input to influence file paths within these predefined, safe boundaries.\n- **Do** use absolute path checks to confirm that the constructed path is within the expected directory\n    ```python\n    BASE_DIRECTORY = '/path/to/safe/directory'\n    my_path = os.path.abspath(os.path.join(BASE_DIRECTORY, dynamic_input))\n\n    if my_path.startswith(BASE_DIRECTORY):\n      open(my_path)\n   ```\n\n## References\n\n- [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)\n",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_path_traversal",
+            "line_number": 38,
+            "full_filename": "tools/download-s3.py",
+            "filename": "tools/download-s3.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 38,
+                "end": 38,
+                "column": {
+                    "start": 9,
+                    "end": 59
+                }
+            },
+            "sink": {
+                "start": 38,
+                "end": 38,
+                "column": {
+                    "start": 9,
+                    "end": 59
+                },
+                "content": ""
+            },
+            "parent_line_number": 38,
+            "fingerprint": "29dd95c59b34cf0790e40462466b1577_0",
+            "old_fingerprint": "29dd95c59b34cf0790e40462466b1577_1",
+            "code_extract": "        self.lpath = os.path.join(arts.dlpath, self.fname)"
+        },
+        {
+            "cwe_ids": [
+                "22"
+            ],
+            "id": "python_lang_path_traversal",
+            "title": "Unsanitized dynamic input in file path",
+            "description": "## Description\n\nUsing unsanitized dynamic input to determine file paths can allow attackers to gain access to files and folders outside of the intended scope. This vulnerability occurs when input provided by users is directly used to access the filesystem without proper validation or sanitization.\n\n## Remediations\n\n- **Do not** directly use external input to construct file paths. This can lead to unauthorized file access.\n- **Do** use a safelist to define accessible paths or directories. Only allow user input to influence file paths within these predefined, safe boundaries.\n- **Do** use absolute path checks to confirm that the constructed path is within the expected directory\n    ```python\n    BASE_DIRECTORY = '/path/to/safe/directory'\n    my_path = os.path.abspath(os.path.join(BASE_DIRECTORY, dynamic_input))\n\n    if my_path.startswith(BASE_DIRECTORY):\n      open(my_path)\n   ```\n\n## References\n\n- [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)\n",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_path_traversal",
+            "line_number": 143,
+            "full_filename": "tools/download-s3.py",
+            "filename": "tools/download-s3.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 143,
+                "end": 143,
+                "column": {
+                    "start": 18,
+                    "end": 34
+                }
+            },
+            "sink": {
+                "start": 143,
+                "end": 143,
+                "column": {
+                    "start": 18,
+                    "end": 34
+                },
+                "content": ""
+            },
+            "parent_line_number": 143,
+            "fingerprint": "29dd95c59b34cf0790e40462466b1577_1",
+            "old_fingerprint": "29dd95c59b34cf0790e40462466b1577_13",
+            "code_extract": "        for f in os.listdir(path):"
+        },
+        {
+            "cwe_ids": [
+                "22"
+            ],
+            "id": "python_lang_path_traversal",
+            "title": "Unsanitized dynamic input in file path",
+            "description": "## Description\n\nUsing unsanitized dynamic input to determine file paths can allow attackers to gain access to files and folders outside of the intended scope. This vulnerability occurs when input provided by users is directly used to access the filesystem without proper validation or sanitization.\n\n## Remediations\n\n- **Do not** directly use external input to construct file paths. This can lead to unauthorized file access.\n- **Do** use a safelist to define accessible paths or directories. Only allow user input to influence file paths within these predefined, safe boundaries.\n- **Do** use absolute path checks to confirm that the constructed path is within the expected directory\n    ```python\n    BASE_DIRECTORY = '/path/to/safe/directory'\n    my_path = os.path.abspath(os.path.join(BASE_DIRECTORY, dynamic_input))\n\n    if my_path.startswith(BASE_DIRECTORY):\n      open(my_path)\n   ```\n\n## References\n\n- [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)\n",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_path_traversal",
+            "line_number": 144,
+            "full_filename": "tools/download-s3.py",
+            "filename": "tools/download-s3.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 144,
+                "end": 144,
+                "column": {
+                    "start": 13,
+                    "end": 42
+                }
+            },
+            "sink": {
+                "start": 144,
+                "end": 144,
+                "column": {
+                    "start": 13,
+                    "end": 42
+                },
+                "content": ""
+            },
+            "parent_line_number": 144,
+            "fingerprint": "29dd95c59b34cf0790e40462466b1577_2",
+            "old_fingerprint": "29dd95c59b34cf0790e40462466b1577_14",
+            "code_extract": "            lpath = os.path.join(path, f)"
+        },
+        {
+            "cwe_ids": [
+                "22"
+            ],
+            "id": "python_lang_path_traversal",
+            "title": "Unsanitized dynamic input in file path",
+            "description": "## Description\n\nUsing unsanitized dynamic input to determine file paths can allow attackers to gain access to files and folders outside of the intended scope. This vulnerability occurs when input provided by users is directly used to access the filesystem without proper validation or sanitization.\n\n## Remediations\n\n- **Do not** directly use external input to construct file paths. This can lead to unauthorized file access.\n- **Do** use a safelist to define accessible paths or directories. Only allow user input to influence file paths within these predefined, safe boundaries.\n- **Do** use absolute path checks to confirm that the constructed path is within the expected directory\n    ```python\n    BASE_DIRECTORY = '/path/to/safe/directory'\n    my_path = os.path.abspath(os.path.join(BASE_DIRECTORY, dynamic_input))\n\n    if my_path.startswith(BASE_DIRECTORY):\n      open(my_path)\n   ```\n\n## References\n\n- [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)\n",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_path_traversal",
+            "line_number": 145,
+            "full_filename": "tools/download-s3.py",
+            "filename": "tools/download-s3.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 145,
+                "end": 145,
+                "column": {
+                    "start": 35,
+                    "end": 40
+                }
+            },
+            "sink": {
+                "start": 145,
+                "end": 145,
+                "column": {
+                    "start": 35,
+                    "end": 40
+                },
+                "content": ""
+            },
+            "parent_line_number": 145,
+            "fingerprint": "29dd95c59b34cf0790e40462466b1577_3",
+            "old_fingerprint": "29dd95c59b34cf0790e40462466b1577_15",
+            "code_extract": "            if not os.path.isfile(lpath):"
+        },
+        {
+            "cwe_ids": [
+                "22"
+            ],
+            "id": "python_lang_path_traversal",
+            "title": "Unsanitized dynamic input in file path",
+            "description": "## Description\n\nUsing unsanitized dynamic input to determine file paths can allow attackers to gain access to files and folders outside of the intended scope. This vulnerability occurs when input provided by users is directly used to access the filesystem without proper validation or sanitization.\n\n## Remediations\n\n- **Do not** directly use external input to construct file paths. This can lead to unauthorized file access.\n- **Do** use a safelist to define accessible paths or directories. Only allow user input to influence file paths within these predefined, safe boundaries.\n- **Do** use absolute path checks to confirm that the constructed path is within the expected directory\n    ```python\n    BASE_DIRECTORY = '/path/to/safe/directory'\n    my_path = os.path.abspath(os.path.join(BASE_DIRECTORY, dynamic_input))\n\n    if my_path.startswith(BASE_DIRECTORY):\n      open(my_path)\n   ```\n\n## References\n\n- [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)\n",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_path_traversal",
+            "line_number": 147,
+            "full_filename": "tools/download-s3.py",
+            "filename": "tools/download-s3.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 147,
+                "end": 147,
+                "column": {
+                    "start": 28,
+                    "end": 33
+                }
+            },
+            "sink": {
+                "start": 147,
+                "end": 147,
+                "column": {
+                    "start": 28,
+                    "end": 33
+                },
+                "content": ""
+            },
+            "parent_line_number": 147,
+            "fingerprint": "29dd95c59b34cf0790e40462466b1577_4",
+            "old_fingerprint": "29dd95c59b34cf0790e40462466b1577_16",
+            "code_extract": "            Artifact(self, lpath)"
+        },
+        {
+            "cwe_ids": [
+                "22"
+            ],
+            "id": "python_lang_path_traversal",
+            "title": "Unsanitized dynamic input in file path",
+            "description": "## Description\n\nUsing unsanitized dynamic input to determine file paths can allow attackers to gain access to files and folders outside of the intended scope. This vulnerability occurs when input provided by users is directly used to access the filesystem without proper validation or sanitization.\n\n## Remediations\n\n- **Do not** directly use external input to construct file paths. This can lead to unauthorized file access.\n- **Do** use a safelist to define accessible paths or directories. Only allow user input to influence file paths within these predefined, safe boundaries.\n- **Do** use absolute path checks to confirm that the constructed path is within the expected directory\n    ```python\n    BASE_DIRECTORY = '/path/to/safe/directory'\n    my_path = os.path.abspath(os.path.join(BASE_DIRECTORY, dynamic_input))\n\n    if my_path.startswith(BASE_DIRECTORY):\n      open(my_path)\n   ```\n\n## References\n\n- [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)\n",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_path_traversal",
+            "line_number": 57,
+            "full_filename": "tools/unasync.py",
+            "filename": "tools/unasync.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 57,
+                "end": 57,
+                "column": {
+                    "start": 10,
+                    "end": 28
+                }
+            },
+            "sink": {
+                "start": 57,
+                "end": 57,
+                "column": {
+                    "start": 10,
+                    "end": 28
+                },
+                "content": ""
+            },
+            "parent_line_number": 57,
+            "fingerprint": "25dd30b46692a0e665a1aab638785d5b_0",
+            "old_fingerprint": "25dd30b46692a0e665a1aab638785d5b_2",
+            "code_extract": "    with open(in_path, \"r\") as in_file:"
+        },
+        {
+            "cwe_ids": [
+                "22"
+            ],
+            "id": "python_lang_path_traversal",
+            "title": "Unsanitized dynamic input in file path",
+            "description": "## Description\n\nUsing unsanitized dynamic input to determine file paths can allow attackers to gain access to files and folders outside of the intended scope. This vulnerability occurs when input provided by users is directly used to access the filesystem without proper validation or sanitization.\n\n## Remediations\n\n- **Do not** directly use external input to construct file paths. This can lead to unauthorized file access.\n- **Do** use a safelist to define accessible paths or directories. Only allow user input to influence file paths within these predefined, safe boundaries.\n- **Do** use absolute path checks to confirm that the constructed path is within the expected directory\n    ```python\n    BASE_DIRECTORY = '/path/to/safe/directory'\n    my_path = os.path.abspath(os.path.join(BASE_DIRECTORY, dynamic_input))\n\n    if my_path.startswith(BASE_DIRECTORY):\n      open(my_path)\n   ```\n\n## References\n\n- [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)\n",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_path_traversal",
+            "line_number": 58,
+            "full_filename": "tools/unasync.py",
+            "filename": "tools/unasync.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 58,
+                "end": 58,
+                "column": {
+                    "start": 14,
+                    "end": 45
+                }
+            },
+            "sink": {
+                "start": 58,
+                "end": 58,
+                "column": {
+                    "start": 14,
+                    "end": 45
+                },
+                "content": ""
+            },
+            "parent_line_number": 58,
+            "fingerprint": "25dd30b46692a0e665a1aab638785d5b_1",
+            "old_fingerprint": "25dd30b46692a0e665a1aab638785d5b_3",
+            "code_extract": "        with open(out_path, \"w\", newline=\"\") as out_file:"
+        },
+        {
+            "cwe_ids": [
+                "22"
+            ],
+            "id": "python_lang_path_traversal",
+            "title": "Unsanitized dynamic input in file path",
+            "description": "## Description\n\nUsing unsanitized dynamic input to determine file paths can allow attackers to gain access to files and folders outside of the intended scope. This vulnerability occurs when input provided by users is directly used to access the filesystem without proper validation or sanitization.\n\n## Remediations\n\n- **Do not** directly use external input to construct file paths. This can lead to unauthorized file access.\n- **Do** use a safelist to define accessible paths or directories. Only allow user input to influence file paths within these predefined, safe boundaries.\n- **Do** use absolute path checks to confirm that the constructed path is within the expected directory\n    ```python\n    BASE_DIRECTORY = '/path/to/safe/directory'\n    my_path = os.path.abspath(os.path.join(BASE_DIRECTORY, dynamic_input))\n\n    if my_path.startswith(BASE_DIRECTORY):\n      open(my_path)\n   ```\n\n## References\n\n- [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)\n",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_path_traversal",
+            "line_number": 78,
+            "full_filename": "tools/unasync.py",
+            "filename": "tools/unasync.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 78,
+                "end": 78,
+                "column": {
+                    "start": 14,
+                    "end": 32
+                }
+            },
+            "sink": {
+                "start": 78,
+                "end": 78,
+                "column": {
+                    "start": 14,
+                    "end": 32
+                },
+                "content": ""
+            },
+            "parent_line_number": 78,
+            "fingerprint": "25dd30b46692a0e665a1aab638785d5b_2",
+            "old_fingerprint": "25dd30b46692a0e665a1aab638785d5b_4",
+            "code_extract": "        with open(in_path, \"r\") as in_file:"
+        },
+        {
+            "cwe_ids": [
+                "22"
+            ],
+            "id": "python_lang_path_traversal",
+            "title": "Unsanitized dynamic input in file path",
+            "description": "## Description\n\nUsing unsanitized dynamic input to determine file paths can allow attackers to gain access to files and folders outside of the intended scope. This vulnerability occurs when input provided by users is directly used to access the filesystem without proper validation or sanitization.\n\n## Remediations\n\n- **Do not** directly use external input to construct file paths. This can lead to unauthorized file access.\n- **Do** use a safelist to define accessible paths or directories. Only allow user input to influence file paths within these predefined, safe boundaries.\n- **Do** use absolute path checks to confirm that the constructed path is within the expected directory\n    ```python\n    BASE_DIRECTORY = '/path/to/safe/directory'\n    my_path = os.path.abspath(os.path.join(BASE_DIRECTORY, dynamic_input))\n\n    if my_path.startswith(BASE_DIRECTORY):\n      open(my_path)\n   ```\n\n## References\n\n- [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)\n",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_path_traversal",
+            "line_number": 82,
+            "full_filename": "tools/unasync.py",
+            "filename": "tools/unasync.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 82,
+                "end": 82,
+                "column": {
+                    "start": 14,
+                    "end": 33
+                }
+            },
+            "sink": {
+                "start": 82,
+                "end": 82,
+                "column": {
+                    "start": 14,
+                    "end": 33
+                },
+                "content": ""
+            },
+            "parent_line_number": 82,
+            "fingerprint": "25dd30b46692a0e665a1aab638785d5b_3",
+            "old_fingerprint": "25dd30b46692a0e665a1aab638785d5b_5",
+            "code_extract": "        with open(out_path, \"r\") as out_file:"
+        },
+        {
+            "cwe_ids": [
+                "22"
+            ],
+            "id": "python_lang_path_traversal",
+            "title": "Unsanitized dynamic input in file path",
+            "description": "## Description\n\nUsing unsanitized dynamic input to determine file paths can allow attackers to gain access to files and folders outside of the intended scope. This vulnerability occurs when input provided by users is directly used to access the filesystem without proper validation or sanitization.\n\n## Remediations\n\n- **Do not** directly use external input to construct file paths. This can lead to unauthorized file access.\n- **Do** use a safelist to define accessible paths or directories. Only allow user input to influence file paths within these predefined, safe boundaries.\n- **Do** use absolute path checks to confirm that the constructed path is within the expected directory\n    ```python\n    BASE_DIRECTORY = '/path/to/safe/directory'\n    my_path = os.path.abspath(os.path.join(BASE_DIRECTORY, dynamic_input))\n\n    if my_path.startswith(BASE_DIRECTORY):\n      open(my_path)\n   ```\n\n## References\n\n- [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)\n",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_path_traversal",
+            "line_number": 130,
+            "full_filename": "tools/unasync.py",
+            "filename": "tools/unasync.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 130,
+                "end": 130,
+                "column": {
+                    "start": 5,
+                    "end": 53
+                }
+            },
+            "sink": {
+                "start": 130,
+                "end": 130,
+                "column": {
+                    "start": 5,
+                    "end": 53
+                },
+                "content": ""
+            },
+            "parent_line_number": 130,
+            "fingerprint": "25dd30b46692a0e665a1aab638785d5b_4",
+            "old_fingerprint": "25dd30b46692a0e665a1aab638785d5b_7",
+            "code_extract": "    readme_path = os.path.join(out_dir, \"README.md\")"
+        },
+        {
+            "cwe_ids": [
+                "22"
+            ],
+            "id": "python_lang_path_traversal",
+            "title": "Unsanitized dynamic input in file path",
+            "description": "## Description\n\nUsing unsanitized dynamic input to determine file paths can allow attackers to gain access to files and folders outside of the intended scope. This vulnerability occurs when input provided by users is directly used to access the filesystem without proper validation or sanitization.\n\n## Remediations\n\n- **Do not** directly use external input to construct file paths. This can lead to unauthorized file access.\n- **Do** use a safelist to define accessible paths or directories. Only allow user input to influence file paths within these predefined, safe boundaries.\n- **Do** use absolute path checks to confirm that the constructed path is within the expected directory\n    ```python\n    BASE_DIRECTORY = '/path/to/safe/directory'\n    my_path = os.path.abspath(os.path.join(BASE_DIRECTORY, dynamic_input))\n\n    if my_path.startswith(BASE_DIRECTORY):\n      open(my_path)\n   ```\n\n## References\n\n- [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)\n",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_path_traversal",
+            "line_number": 139,
+            "full_filename": "tools/unasync.py",
+            "filename": "tools/unasync.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 139,
+                "end": 139,
+                "column": {
+                    "start": 10,
+                    "end": 32
+                }
+            },
+            "sink": {
+                "start": 139,
+                "end": 139,
+                "column": {
+                    "start": 10,
+                    "end": 32
+                },
+                "content": ""
+            },
+            "parent_line_number": 139,
+            "fingerprint": "25dd30b46692a0e665a1aab638785d5b_5",
+            "old_fingerprint": "25dd30b46692a0e665a1aab638785d5b_12",
+            "code_extract": "    with open(readme_path, \"w\") as f:"
+        },
+        {
+            "cwe_ids": [
+                "327"
+            ],
+            "id": "python_lang_weak_random",
+            "title": "Usage of weak Pseudo-Random Number Generator (PRNG)",
+            "description": "## Description\n\nThe `random` module in Python generates pseudorandom numbers that are not secure for cryptographic purposes. These numbers can be predicted if the seed is known, posing a risk to the security of applications that use them for generating secrets, tokens, or other security-sensitive elements.\n\n## Remediations\n\n- **Do** use `secrets` instead of `random` for generating random numbers in contexts where security is crucial. This ensures the randomness is cryptographically secure and unpredictable.\n- **Do not** use `random` for generating random numbers in cryptographic applications, including but not limited to key generation, authentication tokens, or security challenges.\n- **Do not** initialize `random` with predictable seeds, such as timestamps or other easily guessable values, if it is required to use `random`.\n\n## References\n\n- [secrets module documentation](https://docs.python.org/3/library/secrets.html)",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_weak_random",
+            "line_number": 70,
+            "full_filename": "src/confluent_kafka/schema_registry/common/schema_registry_client.py",
+            "filename": "src/confluent_kafka/schema_registry/common/schema_registry_client.py",
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 70,
+                "end": 70,
+                "column": {
+                    "start": 12,
+                    "end": 27
+                }
+            },
+            "sink": {
+                "start": 70,
+                "end": 70,
+                "column": {
+                    "start": 12,
+                    "end": 27
+                },
+                "content": ""
+            },
+            "parent_line_number": 70,
+            "fingerprint": "3ba7479c85387fe3ad640e8929c10193_0",
+            "old_fingerprint": "3ba7479c85387fe3ad640e8929c10193_0",
+            "code_extract": "    return random.random() * min(no_jitter_delay, max_delay_ms)"
+        }
+    ],
+    "medium": [
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 92,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 92,
+                "end": 92,
+                "column": {
+                    "start": 13,
+                    "end": 55
+                },
+                "content": ""
+            },
+            "parent_line_number": 92,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_0",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_0",
+            "code_extract": "            raise TypeError(\"URL must be of type str\")"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 95,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 95,
+                "end": 95,
+                "column": {
+                    "start": 13,
+                    "end": 73
+                },
+                "content": ""
+            },
+            "parent_line_number": 95,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_1",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_1",
+            "code_extract": "            raise ValueError(\"Invalid URL provided for Schema Registry\")"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 122,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 122,
+                "end": 122,
+                "column": {
+                    "start": 13,
+                    "end": 94
+                },
+                "content": ""
+            },
+            "parent_line_number": 122,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_2",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_2",
+            "code_extract": "            raise ValueError(\"Unrecognized configuration properties: {}\".format(conf.keys()))"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 165,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 165,
+                "end": 166,
+                "column": {
+                    "start": 13,
+                    "end": 60
+                },
+                "content": ""
+            },
+            "parent_line_number": 165,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_3",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_3",
+            "code_extract": "            raise ValueError(\"schema.registry.basic.auth.credentials.source must be one of {}\"\n                             .format(VALID_AUTH_PROVIDERS))"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 169,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 169,
+                "end": 169,
+                "column": {
+                    "start": 17,
+                    "end": 88
+                },
+                "content": ""
+            },
+            "parent_line_number": 169,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_4",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_4",
+            "code_extract": "                raise ValueError(\"SASL_INHERIT does not support SASL mechanism GSSAPI\")"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 182,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 182,
+                "end": 183,
+                "column": {
+                    "start": 13,
+                    "end": 114
+                },
+                "content": ""
+            },
+            "parent_line_number": 182,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_5",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_5",
+            "code_extract": "            raise ValueError(\n                \"Both schema.registry.ssl.certificate.location and schema.registry.ssl.key.location must be set\")"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 188,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 188,
+                "end": 188,
+                "column": {
+                    "start": 13,
+                    "end": 110
+                },
+                "content": ""
+            },
+            "parent_line_number": 188,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_6",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_6",
+            "code_extract": "            raise ClientError(\"Method {} is invalid; valid methods include {}\".format(method, VALID_METHODS))"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 256,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 256,
+                "end": 257,
+                "column": {
+                    "start": 13,
+                    "end": 59
+                },
+                "content": ""
+            },
+            "parent_line_number": 256,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_7",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_7",
+            "code_extract": "            raise ClientError(\"Unauthorized access. Error code:\" + str(code)\n                              + \" message:\" + str(result))"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 259,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 259,
+                "end": 260,
+                "column": {
+                    "start": 13,
+                    "end": 59
+                },
+                "content": ""
+            },
+            "parent_line_number": 259,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_8",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_8",
+            "code_extract": "            raise ClientError(\"Incompatible Avro schema:\" + str(code)\n                              + \" message:\" + str(result))"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 262,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 262,
+                "end": 263,
+                "column": {
+                    "start": 13,
+                    "end": 59
+                },
+                "content": ""
+            },
+            "parent_line_number": 262,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_9",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_9",
+            "code_extract": "            raise ClientError(\"Invalid Avro schema:\" + str(code)\n                              + \" message:\" + str(result))"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 265,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 265,
+                "end": 266,
+                "column": {
+                    "start": 13,
+                    "end": 59
+                },
+                "content": ""
+            },
+            "parent_line_number": 265,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_10",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_10",
+            "code_extract": "            raise ClientError(\"Unable to register schema. Error code:\" + str(code)\n                              + \" message:\" + str(result))"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 300,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 300,
+                "end": 300,
+                "column": {
+                    "start": 13,
+                    "end": 78
+                },
+                "content": ""
+            },
+            "parent_line_number": 300,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_11",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_11",
+            "code_extract": "            raise ClientError(\"Unauthorized access. Error code:\" + str(code))"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 302,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 302,
+                "end": 302,
+                "column": {
+                    "start": 13,
+                    "end": 74
+                },
+                "content": ""
+            },
+            "parent_line_number": 302,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_12",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_12",
+            "code_extract": "            raise ClientError(\"Schema or subject not found:\" + str(code))"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 304,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 304,
+                "end": 304,
+                "column": {
+                    "start": 13,
+                    "end": 94
+                },
+                "content": ""
+            },
+            "parent_line_number": 304,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_13",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_13",
+            "code_extract": "            raise ClientError(\"Unable to check schema registration. Error code:\" + str(code))"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 325,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 325,
+                "end": 325,
+                "column": {
+                    "start": 13,
+                    "end": 77
+                },
+                "content": ""
+            },
+            "parent_line_number": 325,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_14",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_14",
+            "code_extract": "            raise ClientError('Unable to delete subject: {}'.format(result))"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 358,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 358,
+                "end": 358,
+                "column": {
+                    "start": 17,
+                    "end": 100
+                },
+                "content": ""
+            },
+            "parent_line_number": 358,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_15",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_15",
+            "code_extract": "                raise ClientError(\"Received bad schema (id %s) from registry: %s\" % (schema_id, e))"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 491,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 491,
+                "end": 491,
+                "column": {
+                    "start": 13,
+                    "end": 76
+                },
+                "content": ""
+            },
+            "parent_line_number": 491,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_16",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_16",
+            "code_extract": "            raise ClientError(\"Invalid level specified: %s\" % (str(level)))"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 502,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 502,
+                "end": 502,
+                "column": {
+                    "start": 13,
+                    "end": 97
+                },
+                "content": ""
+            },
+            "parent_line_number": 502,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_17",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_17",
+            "code_extract": "            raise ClientError(\"Unable to update level: %s. Error code: %d\" % (str(level), code))"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 521,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 521,
+                "end": 521,
+                "column": {
+                    "start": 13,
+                    "end": 92
+                },
+                "content": ""
+            },
+            "parent_line_number": 521,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_18",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_18",
+            "code_extract": "            raise ClientError('Unable to fetch compatibility level. Error code: %d' % code)"
+        },
+        {
+            "cwe_ids": [
+                "210"
+            ],
+            "id": "python_lang_exception",
+            "title": "Leakage of sensitive data in exception message",
+            "description": "## Description\n\nLeakage of sensitive data in exception messages can lead to data breaches. This vulnerability occurs when sensitive information is included in exceptions, making it accessible to unauthorized users.\n\n## Remediations\n\n- **Do not** include sensitive data in exception messages. This can inadvertently expose private information.\n  ```python\n  raise Exception(f\"User '{user.email}' is unauthorized\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers in exception messages to avoid revealing personal information.\n  ```python\n  raise Exception(f\"User '{user.uuid}' is unauthorized\") # unsafe\n  ```",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_exception",
+            "line_number": 529,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 529,
+                "end": 529,
+                "column": {
+                    "start": 13,
+                    "end": 93
+                },
+                "content": ""
+            },
+            "parent_line_number": 529,
+            "fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_19",
+            "old_fingerprint": "61ea6d6eac8213a4a557b6ee725a6d45_19",
+            "code_extract": "            raise ClientError('Invalid compatibility level received: %s' % error_msg_suffix)"
+        },
+        {
+            "cwe_ids": [
+                "532"
+            ],
+            "id": "python_lang_logger",
+            "title": "Leakage of sensitive information in logger message",
+            "description": "## Description\n\nSensitive information leakage through logger messages can compromise data security. This vulnerability arises when sensitive data is inadvertently included in log messages, posing a risk of unauthorized disclosure.\n\n## Remediations\n\n- **Do not** include sensitive data in logger messages. This can lead to unintentional exposure of private information.\n  ```python\n  logger.info(f\"User is: '{user.email}'\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers to log user information. This approach maintains privacy and security.\n  ```python\n  logger.info(f\"User is: '{user.uuid}'\")\n  ```\n\n## References\n\n- [OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html)",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_logger",
+            "line_number": 343,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 343,
+                "end": 343,
+                "column": {
+                    "start": 13,
+                    "end": 55
+                },
+                "content": ""
+            },
+            "parent_line_number": 343,
+            "fingerprint": "e89a2d8ee4ba19fd5f3bf85c9b759f24_0",
+            "old_fingerprint": "e89a2d8ee4ba19fd5f3bf85c9b759f24_0",
+            "code_extract": "            log.error(\"Schema not found:\" + str(code))"
+        },
+        {
+            "cwe_ids": [
+                "532"
+            ],
+            "id": "python_lang_logger",
+            "title": "Leakage of sensitive information in logger message",
+            "description": "## Description\n\nSensitive information leakage through logger messages can compromise data security. This vulnerability arises when sensitive data is inadvertently included in log messages, posing a risk of unauthorized disclosure.\n\n## Remediations\n\n- **Do not** include sensitive data in logger messages. This can lead to unintentional exposure of private information.\n  ```python\n  logger.info(f\"User is: '{user.email}'\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers to log user information. This approach maintains privacy and security.\n  ```python\n  logger.info(f\"User is: '{user.uuid}'\")\n  ```\n\n## References\n\n- [OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html)",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_logger",
+            "line_number": 346,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 346,
+                "end": 346,
+                "column": {
+                    "start": 13,
+                    "end": 79
+                },
+                "content": ""
+            },
+            "parent_line_number": 346,
+            "fingerprint": "e89a2d8ee4ba19fd5f3bf85c9b759f24_1",
+            "old_fingerprint": "e89a2d8ee4ba19fd5f3bf85c9b759f24_1",
+            "code_extract": "            log.error(\"Unable to get schema for the specific ID:\" + str(code))"
+        },
+        {
+            "cwe_ids": [
+                "532"
+            ],
+            "id": "python_lang_logger",
+            "title": "Leakage of sensitive information in logger message",
+            "description": "## Description\n\nSensitive information leakage through logger messages can compromise data security. This vulnerability arises when sensitive data is inadvertently included in log messages, posing a risk of unauthorized disclosure.\n\n## Remediations\n\n- **Do not** include sensitive data in logger messages. This can lead to unintentional exposure of private information.\n  ```python\n  logger.info(f\"User is: '{user.email}'\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers to log user information. This approach maintains privacy and security.\n  ```python\n  logger.info(f\"User is: '{user.uuid}'\")\n  ```\n\n## References\n\n- [OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html)",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_logger",
+            "line_number": 400,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 400,
+                "end": 400,
+                "column": {
+                    "start": 13,
+                    "end": 54
+                },
+                "content": ""
+            },
+            "parent_line_number": 400,
+            "fingerprint": "e89a2d8ee4ba19fd5f3bf85c9b759f24_2",
+            "old_fingerprint": "e89a2d8ee4ba19fd5f3bf85c9b759f24_2",
+            "code_extract": "            log.error(\"Invalid version:\" + str(code))"
+        },
+        {
+            "cwe_ids": [
+                "532"
+            ],
+            "id": "python_lang_logger",
+            "title": "Leakage of sensitive information in logger message",
+            "description": "## Description\n\nSensitive information leakage through logger messages can compromise data security. This vulnerability arises when sensitive data is inadvertently included in log messages, posing a risk of unauthorized disclosure.\n\n## Remediations\n\n- **Do not** include sensitive data in logger messages. This can lead to unintentional exposure of private information.\n  ```python\n  logger.info(f\"User is: '{user.email}'\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers to log user information. This approach maintains privacy and security.\n  ```python\n  logger.info(f\"User is: '{user.uuid}'\")\n  ```\n\n## References\n\n- [OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html)",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_logger",
+            "line_number": 440,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 440,
+                "end": 440,
+                "column": {
+                    "start": 13,
+                    "end": 48
+                },
+                "content": ""
+            },
+            "parent_line_number": 440,
+            "fingerprint": "e89a2d8ee4ba19fd5f3bf85c9b759f24_3",
+            "old_fingerprint": "e89a2d8ee4ba19fd5f3bf85c9b759f24_3",
+            "code_extract": "            log.error(\"Not found:\" + str(code))"
+        },
+        {
+            "cwe_ids": [
+                "532"
+            ],
+            "id": "python_lang_logger",
+            "title": "Leakage of sensitive information in logger message",
+            "description": "## Description\n\nSensitive information leakage through logger messages can compromise data security. This vulnerability arises when sensitive data is inadvertently included in log messages, posing a risk of unauthorized disclosure.\n\n## Remediations\n\n- **Do not** include sensitive data in logger messages. This can lead to unintentional exposure of private information.\n  ```python\n  logger.info(f\"User is: '{user.email}'\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers to log user information. This approach maintains privacy and security.\n  ```python\n  logger.info(f\"User is: '{user.uuid}'\")\n  ```\n\n## References\n\n- [OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html)",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_logger",
+            "line_number": 443,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 443,
+                "end": 443,
+                "column": {
+                    "start": 13,
+                    "end": 72
+                },
+                "content": ""
+            },
+            "parent_line_number": 443,
+            "fingerprint": "e89a2d8ee4ba19fd5f3bf85c9b759f24_4",
+            "old_fingerprint": "e89a2d8ee4ba19fd5f3bf85c9b759f24_4",
+            "code_extract": "            log.error(\"Unable to get version of a schema:\" + str(code))"
+        },
+        {
+            "cwe_ids": [
+                "532"
+            ],
+            "id": "python_lang_logger",
+            "title": "Leakage of sensitive information in logger message",
+            "description": "## Description\n\nSensitive information leakage through logger messages can compromise data security. This vulnerability arises when sensitive data is inadvertently included in log messages, posing a risk of unauthorized disclosure.\n\n## Remediations\n\n- **Do not** include sensitive data in logger messages. This can lead to unintentional exposure of private information.\n  ```python\n  logger.info(f\"User is: '{user.email}'\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers to log user information. This approach maintains privacy and security.\n  ```python\n  logger.info(f\"User is: '{user.uuid}'\")\n  ```\n\n## References\n\n- [OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html)",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_logger",
+            "line_number": 468,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 468,
+                "end": 468,
+                "column": {
+                    "start": 17,
+                    "end": 73
+                },
+                "content": ""
+            },
+            "parent_line_number": 468,
+            "fingerprint": "e89a2d8ee4ba19fd5f3bf85c9b759f24_5",
+            "old_fingerprint": "e89a2d8ee4ba19fd5f3bf85c9b759f24_5",
+            "code_extract": "                log.error((\"Subject or version not found:\" + str(code)))"
+        },
+        {
+            "cwe_ids": [
+                "532"
+            ],
+            "id": "python_lang_logger",
+            "title": "Leakage of sensitive information in logger message",
+            "description": "## Description\n\nSensitive information leakage through logger messages can compromise data security. This vulnerability arises when sensitive data is inadvertently included in log messages, posing a risk of unauthorized disclosure.\n\n## Remediations\n\n- **Do not** include sensitive data in logger messages. This can lead to unintentional exposure of private information.\n  ```python\n  logger.info(f\"User is: '{user.email}'\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers to log user information. This approach maintains privacy and security.\n  ```python\n  logger.info(f\"User is: '{user.uuid}'\")\n  ```\n\n## References\n\n- [OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html)",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_logger",
+            "line_number": 471,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 471,
+                "end": 471,
+                "column": {
+                    "start": 17,
+                    "end": 70
+                },
+                "content": ""
+            },
+            "parent_line_number": 471,
+            "fingerprint": "e89a2d8ee4ba19fd5f3bf85c9b759f24_6",
+            "old_fingerprint": "e89a2d8ee4ba19fd5f3bf85c9b759f24_6",
+            "code_extract": "                log.error((\"Invalid subject or schema:\" + str(code)))"
+        },
+        {
+            "cwe_ids": [
+                "532"
+            ],
+            "id": "python_lang_logger",
+            "title": "Leakage of sensitive information in logger message",
+            "description": "## Description\n\nSensitive information leakage through logger messages can compromise data security. This vulnerability arises when sensitive data is inadvertently included in log messages, posing a risk of unauthorized disclosure.\n\n## Remediations\n\n- **Do not** include sensitive data in logger messages. This can lead to unintentional exposure of private information.\n  ```python\n  logger.info(f\"User is: '{user.email}'\") # unsafe\n  ```\n- **Do** use non-sensitive, unique identifiers to log user information. This approach maintains privacy and security.\n  ```python\n  logger.info(f\"User is: '{user.uuid}'\")\n  ```\n\n## References\n\n- [OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html)",
+            "documentation_url": "https://docs.bearer.com/reference/rules/python_lang_logger",
+            "line_number": 476,
+            "full_filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "filename": "src/confluent_kafka/avro/cached_schema_registry_client.py",
+            "data_type": {
+                "category_uuid": "c3119d43-0562-48ac-9a8e-7217aa8686b8",
+                "name": "Geographic"
+            },
+            "category_groups": [
+                "PII",
+                "Personal Data"
+            ],
+            "source": {
+                "start": 69,
+                "end": 69,
+                "column": {
+                    "start": 59,
+                    "end": 70
+                }
+            },
+            "sink": {
+                "start": 476,
+                "end": 476,
+                "column": {
+                    "start": 17,
+                    "end": 77
+                },
+                "content": ""
+            },
+            "parent_line_number": 476,
+            "fingerprint": "e89a2d8ee4ba19fd5f3bf85c9b759f24_7",
+            "old_fingerprint": "e89a2d8ee4ba19fd5f3bf85c9b759f24_7",
+            "code_extract": "                log.error(\"Unable to check the compatibility: \" + str(code))"
+        }
+    ]
+}
