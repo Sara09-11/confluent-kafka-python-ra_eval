@@ -2,3 +2,4 @@ fastavro < 1.8.0; python_version == "3.7"
 fastavro < 2; python_version > "3.7"
 requests
 avro>=1.11.1,<2
+urllib3>=2.6.3 # not directly required, pinned by Snyk to avoid a vulnerability
