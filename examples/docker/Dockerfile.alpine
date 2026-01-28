@@ -26,7 +26,7 @@
 #
 #############################################################################
 
-FROM alpine:3.12
+FROM alpine:3.23.3
 
 COPY . /usr/src/confluent-kafka-python
 
