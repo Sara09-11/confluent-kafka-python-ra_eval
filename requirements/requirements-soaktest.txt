@@ -1,3 +1,4 @@
 psutil
 opentelemetry-distro
 opentelemetry-exporter-otlp
+protobuf>=6.33.5 # not directly required, pinned by Snyk to avoid a vulnerability
